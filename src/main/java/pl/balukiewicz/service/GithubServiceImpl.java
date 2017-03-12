@@ -1,17 +1,20 @@
 package pl.balukiewicz.service;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import pl.balukiewicz.client.GithubClient;
-import pl.balukiewicz.model.RepositoryData;
+import pl.balukiewicz.client.Repository;
+import pl.balukiewicz.dto.RepositoryDTO;
 
-/**
- * Created by Bartek on 06.03.2017.
- */
+import java.util.Locale;
+
+
 @Service
 public class GithubServiceImpl implements GithubService {
 
-    private GithubClient githubClient;
+    private final GithubClient githubClient;
 
     @Autowired
     public GithubServiceImpl(GithubClient githubClient) {
@@ -19,7 +22,8 @@ public class GithubServiceImpl implements GithubService {
     }
 
     @Override
-    public RepositoryData getRepositoryData(String owner, String repoName) {
-        return githubClient.getRepositoryData(owner, repoName);
+    public RepositoryDTO getRepositoryData(String owner, String repoName) {
+        return new RepositoryDTO(githubClient.getRepository(owner, repoName), LocaleContextHolder.getLocale());
     }
+
 }
