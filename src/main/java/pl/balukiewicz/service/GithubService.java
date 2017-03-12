@@ -1,9 +1,23 @@
 package pl.balukiewicz.service;
 
-import pl.balukiewicz.dto.RepositoryDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pl.balukiewicz.client.GithubClient;
+import pl.balukiewicz.client.Repository;
 
-public interface GithubService {
 
-    RepositoryDTO getRepositoryData(String owner, String repoName);
+@Service
+public class GithubService {
+
+    private final GithubClient githubClient;
+
+    @Autowired
+    public GithubService(GithubClient githubClient) {
+        this.githubClient = githubClient;
+    }
+
+    public Repository getRepositoryData(String owner, String repoName) {
+        return githubClient.getRepository(owner, repoName);
+    }
 
 }

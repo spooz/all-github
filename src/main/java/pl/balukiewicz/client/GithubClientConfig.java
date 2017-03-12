@@ -1,13 +1,21 @@
-package pl.balukiewicz.config;
+package pl.balukiewicz.client;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
-import pl.balukiewicz.client.GithubClientException;
-import pl.balukiewicz.client.GithubServerException;
+import org.springframework.context.annotation.Bean;
 
 import static feign.FeignException.errorStatus;
 
-public class GithubErrorDecoder implements ErrorDecoder {
+public class GithubClientConfig {
+
+    @Bean
+    public GithubErrorDecoder errorDecoder() {
+        return new GithubErrorDecoder();
+    }
+
+}
+
+class GithubErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String methodKey, Response response) {
