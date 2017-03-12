@@ -1,11 +1,14 @@
 package pl.balukiewicz.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 
 @Getter
-@AllArgsConstructor
+@EqualsAndHashCode
+@RequiredArgsConstructor
 public class RepositoryDTO {
 
     private final String fullName;

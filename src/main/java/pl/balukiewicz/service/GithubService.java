@@ -11,7 +11,6 @@ public class GithubService {
 
     private final GithubClient githubClient;
 
-    @Autowired
     public GithubService(GithubClient githubClient) {
         this.githubClient = githubClient;
     }

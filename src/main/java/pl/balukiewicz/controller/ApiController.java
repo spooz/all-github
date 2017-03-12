@@ -1,6 +1,5 @@
 package pl.balukiewicz.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.balukiewicz.dto.RepositoryDTO;
@@ -14,7 +13,6 @@ public class ApiController {
 
     private final GithubServiceFacade githubService;
 
-    @Autowired
     public ApiController(GithubServiceFacade githubService) {
         this.githubService = githubService;
     }

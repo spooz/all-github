@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 @Configuration
-public class LocaleConfig {
+class LocaleConfig {
 
     @Bean
-    public AcceptHeaderLocaleResolver acceptHeaderLocaleResolver() {
+    AcceptHeaderLocaleResolver acceptHeaderLocaleResolver() {
         return new AcceptHeaderLocaleResolver();
     }
 
