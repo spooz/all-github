@@ -11,7 +11,7 @@ class RepositoryService {
         this.repositoryClient = repositoryClient;
     }
 
-    Repository getRepositoryData(String owner, String repoName) {
+    Repository getRepository(String owner, String repoName) {
         return repositoryClient.getRepository(owner, repoName);
     }
 

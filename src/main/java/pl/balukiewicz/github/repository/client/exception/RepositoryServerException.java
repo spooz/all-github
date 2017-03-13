@@ -3,12 +3,13 @@ package pl.balukiewicz.github.repository.client.exception;
 import lombok.Getter;
 
 @Getter
-public class GithubClientException extends RuntimeException {
+public class RepositoryServerException extends RuntimeException {
 
     private final int status;
 
-    public GithubClientException(int status, String message) {
+    public RepositoryServerException(int status, String message) {
         super(message);
         this.status = status;
     }
+
 }

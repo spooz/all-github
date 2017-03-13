@@ -1,5 +1,6 @@
 package pl.balukiewicz;
 
+import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -52,6 +53,7 @@ public class AllGithubApplicationTests {
 		ZonedDateTime zonedDateTime = ZonedDateTime.parse("2011-01-26T19:01:12Z");
 		String createdAt = zonedDateTime.format(DateTimeFormatter
 				.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(locale));
+
 		stubFor(get(urlEqualTo("/repos/octocat/Hello-World"))
 				.willReturn(aResponse()
 						.withHeader("Content-Type", "application/json")
@@ -81,6 +83,7 @@ public class AllGithubApplicationTests {
 		ZonedDateTime zonedDateTime = ZonedDateTime.parse("2011-01-26T19:01:12Z");
 		String createdAt = zonedDateTime.format(DateTimeFormatter
 				.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(locale));
+
 		stubFor(get(urlEqualTo("/repos/octocat/Hello-World"))
 				.willReturn(aResponse()
 						.withHeader("Content-Type", "application/json")
@@ -120,12 +123,29 @@ public class AllGithubApplicationTests {
 	}
 
 	@Test
-	public void shouldReturn404WhenApiInternalError() throws Exception {
+	public void shouldReturn500WhenApiInternalError() throws Exception {
 
 		//given
 		// mocking github's 500 response
 		stubFor(get(anyUrl())
 				.willReturn(aResponse().withStatus(500)));
+
+		//when
+		mockMvc.perform(
+				org.springframework.test.web.servlet.request.MockMvcRequestBuilders.
+						get("/repositories/octocat/Hello-World"))
+				//then
+				.andExpect(status().is(500));
+
+	}
+
+	@Test
+	public void shouldReturn500WhenApiTimeout() throws Exception {
+
+		//given
+		// mocking github's 500 response
+		stubFor(get(anyUrl())
+				.willReturn(aResponse().withStatus(200).withFixedDelay(5000)));
 
 		//when
 		mockMvc.perform(

@@ -1,16 +1,11 @@
 package pl.balukiewicz.github.repository.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.ZonedDateTime;
 
-@Getter
-@EqualsAndHashCode
-@RequiredArgsConstructor
+@Data
 public class Repository {
 
     @JsonProperty("full_name")

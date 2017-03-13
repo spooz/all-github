@@ -14,8 +14,8 @@ public class RepositoryFacade {
         this.repositoryToDTOMapper = repositoryToDTOMapper;
     }
 
-    public RepositoryDTO getRepositoryData(String owner, String repoName, Locale locale) {
-        return repositoryToDTOMapper.map(repositoryService.getRepositoryData(owner, repoName), locale);
+    public RepositoryDTO getRepository(String owner, String repoName, Locale locale) {
+        return repositoryToDTOMapper.map(repositoryService.getRepository(owner, repoName), locale);
     }
 
 
