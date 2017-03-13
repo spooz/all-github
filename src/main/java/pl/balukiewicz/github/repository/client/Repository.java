@@ -1,4 +1,4 @@
-package pl.balukiewicz.client;
+package pl.balukiewicz.github.repository.client;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

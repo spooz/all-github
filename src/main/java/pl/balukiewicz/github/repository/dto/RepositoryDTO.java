@@ -1,6 +1,5 @@
-package pl.balukiewicz.dto;
+package pl.balukiewicz.github.repository.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

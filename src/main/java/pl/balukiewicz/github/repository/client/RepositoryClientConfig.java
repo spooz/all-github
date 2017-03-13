@@ -1,21 +1,27 @@
-package pl.balukiewicz.client;
+package pl.balukiewicz.github.repository.client;
 
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import pl.balukiewicz.github.repository.client.exception.GithubClientException;
+import pl.balukiewicz.github.repository.client.exception.GithubServerException;
 
 import static feign.FeignException.errorStatus;
 
-public class GithubClientConfig {
+@Configuration
+@EnableFeignClients
+class RepositoryClientConfig {
 
     @Bean
-    public GithubErrorDecoder errorDecoder() {
-        return new GithubErrorDecoder();
+    RepositoryClientErrorDecoder errorDecoder() {
+        return new RepositoryClientErrorDecoder();
     }
 
 }
 
-class GithubErrorDecoder implements ErrorDecoder {
+class RepositoryClientErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String methodKey, Response response) {

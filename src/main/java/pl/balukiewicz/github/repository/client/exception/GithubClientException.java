@@ -1,4 +1,4 @@
-package pl.balukiewicz.client;
+package pl.balukiewicz.github.repository.client.exception;
 
 import lombok.Getter;
 
@@ -6,11 +6,9 @@ import lombok.Getter;
 public class GithubClientException extends RuntimeException {
 
     private final int status;
-    private final String message;
-
 
     public GithubClientException(int status, String message) {
+        super(message);
         this.status = status;
-        this.message = message;
     }
 }

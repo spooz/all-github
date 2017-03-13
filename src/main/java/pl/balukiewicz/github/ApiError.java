@@ -1,12 +1,10 @@
-package pl.balukiewicz.controller;
+package pl.balukiewicz.github;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ApiError {
-
+class ApiError {
     private final String message;
-
 }

@@ -1,17 +1,15 @@
-package pl.balukiewicz.service;
+package pl.balukiewicz.github.repository;
 
-import org.springframework.stereotype.Component;
-import pl.balukiewicz.client.Repository;
-import pl.balukiewicz.dto.RepositoryDTO;
+import pl.balukiewicz.github.repository.client.Repository;
+import pl.balukiewicz.github.repository.dto.RepositoryDTO;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Locale;
 
-@Component
 class RepositoryToDTOMapper {
 
-    public RepositoryDTO map(Repository repository, Locale locale) {
+    RepositoryDTO map(Repository repository, Locale locale) {
         return new RepositoryDTO(repository.getFullName(),
                 repository.getDescription(),
                 repository.getCloneUrl(),

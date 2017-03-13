@@ -1,4 +1,4 @@
-package pl.balukiewicz.config;
+package pl.balukiewicz.github;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
