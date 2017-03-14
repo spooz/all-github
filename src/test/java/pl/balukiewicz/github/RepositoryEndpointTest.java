@@ -1,10 +1,7 @@
 package pl.balukiewicz.github;
 
-import org.apache.tomcat.jni.Local;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
 import pl.balukiewicz.github.repository.RepositoryFacade;
 import pl.balukiewicz.github.repository.client.exception.RepositoryClientException;
@@ -13,7 +10,6 @@ import pl.balukiewicz.github.repository.dto.RepositoryDTO;
 import java.util.Locale;
 
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -21,22 +17,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 public class RepositoryEndpointTest {
 
-    @InjectMocks
     private RepositoryEndpoint repositoryEndpoint;
-
-    @Mock
     private RepositoryFacade repositoryFacade;
 
     private MockMvc mockMvc;
 
     @Before
     public void setup() {
-        initMocks(this);
+        repositoryFacade = mock(RepositoryFacade.class);
+        repositoryEndpoint = new RepositoryEndpoint(repositoryFacade);
         mockMvc = standaloneSetup(repositoryEndpoint).build();
     }
 
     @Test
-    public void shouldReturnRepository() throws Exception {
+    public void shouldReturnRepositoryWithEnglishLocale() throws Exception {
         //given
         RepositoryDTO repositoryDTO = new RepositoryDTO("fullName", "description",
                 "cloneUrl", 1L, "createdAt");
@@ -52,7 +46,19 @@ public class RepositoryEndpointTest {
                 .andExpect(jsonPath("$.cloneUrl").value(repositoryDTO.getCloneUrl()))
                 .andExpect(jsonPath("$.stars").value(repositoryDTO.getStars()))
                 .andExpect(jsonPath("$.createdAt").value(repositoryDTO.getCreatedAt()));
+    }
 
+    @Test
+    public void shouldCallRepositoryFacadeWithParameters() throws Exception {
+        //given
+        RepositoryDTO repositoryDTO = new RepositoryDTO("fullName", "description",
+                "cloneUrl", 1L, "createdAt");
+        when(repositoryFacade.getRepository("test", "test", Locale.ENGLISH)).thenReturn(repositoryDTO);
+
+        //when
+        mockMvc.perform(get("/repositories/test/test").locale(Locale.ENGLISH));
+
+        //then
         verify(repositoryFacade, atLeast(1))
                 .getRepository("test", "test", Locale.ENGLISH);
     }

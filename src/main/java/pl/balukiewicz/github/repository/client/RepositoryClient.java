@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
+//using Feign custom Error Decoder instead of Hystrix fallback in order to properly handle Github's response
 @FeignClient(name = "github", url = "${github.api.url}", configuration = RepositoryClientConfig.class)
 public interface RepositoryClient {
 

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.balukiewicz.github.repository.client.RepositoryClient;
 
+//using package scope, to hide excessive visibility
 @Configuration
 class RepositoryConfig {
 

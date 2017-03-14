@@ -1,6 +1,5 @@
 package pl.balukiewicz;
 
-import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,9 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Locale;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -24,6 +20,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+//end to end tests using WireMock. Decided not to test with live Github's API to eliminate synchro problems
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -44,15 +41,12 @@ public class AllGithubApplicationTests {
 	public WireMockRule wireMockRule = new WireMockRule(wireMockConfig().port(8089));
 
 
-
 	@Test
 	public void shouldReturnHelloWorldWithPLLocale() throws Exception {
 
 		//given
 		Locale locale = Locale.forLanguageTag("pl");
-		ZonedDateTime zonedDateTime = ZonedDateTime.parse("2011-01-26T19:01:12Z");
-		String createdAt = zonedDateTime.format(DateTimeFormatter
-				.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(locale));
+		String createdAt = "2011-01-26 19:01:12";
 
 		stubFor(get(urlEqualTo("/repos/octocat/Hello-World"))
 				.willReturn(aResponse()
@@ -79,10 +73,8 @@ public class AllGithubApplicationTests {
 	public void shouldReturnHelloWorldWithENLocale() throws Exception {
 
 		//given
-		Locale locale = Locale.forLanguageTag("en");
-		ZonedDateTime zonedDateTime = ZonedDateTime.parse("2011-01-26T19:01:12Z");
-		String createdAt = zonedDateTime.format(DateTimeFormatter
-				.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(locale));
+		Locale locale = Locale.ENGLISH;
+		String createdAt = "Jan 26, 2011 7:01:12 PM";
 
 		stubFor(get(urlEqualTo("/repos/octocat/Hello-World"))
 				.willReturn(aResponse()
@@ -143,7 +135,7 @@ public class AllGithubApplicationTests {
 	public void shouldReturn500WhenApiTimeout() throws Exception {
 
 		//given
-		// mocking github's 500 response
+		// mocking github's timeout
 		stubFor(get(anyUrl())
 				.willReturn(aResponse().withStatus(200).withFixedDelay(5000)));
 
