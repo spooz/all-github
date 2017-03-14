@@ -17,6 +17,7 @@ import pl.balukiewicz.github.repository.client.exception.RepositoryServerExcepti
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -50,23 +51,23 @@ public class RepositoryClientTest {
         assertThat(repository.getCreatedAt()).isEqualTo("2011-01-26T19:01:12Z");
     }
 
-    @Test(expected = RepositoryClientException.class)
+    @Test
     public void shouldThrowRepositoryClientException() {
         //given
         stubFor(get(anyUrl())
                 .willReturn(aResponse().withStatus(404)));
 
-        //given
-        repositoryClient.getRepository("octocat", "Hello-World");
+        assertThatThrownBy(() -> repositoryClient.getRepository("octocat", "Hello-World"))
+                .isInstanceOf(RepositoryClientException.class);
     }
 
-    @Test(expected = RepositoryServerException.class)
+    @Test
     public void shouldThrowRepositoryServerException() {
-        //given
         stubFor(get(anyUrl())
                 .willReturn(aResponse().withStatus(500)));
 
-        //given
-        repositoryClient.getRepository("octocat", "Hello-World");
+        assertThatThrownBy(() -> repositoryClient.getRepository("octocat", "Hello-World"))
+                .isInstanceOf(RepositoryServerException.class);
+
     }
 }
